@@ -1,31 +1,31 @@
-# 🚀 Multi-DB Docker + Terraform App
+# 🚀 Multi-DB Terraform + Podman App
 
-## 🧠 Overview
+##  Overview
 
-This project demonstrates a Python application working with **two databases simultaneously**:
+This project demonstrates a Python application working with **two databases in parallel**:
 
 * SQLite (local file-based database)
-* MySQL (running in a Docker container)
+* MySQL (provisioned and managed via Terraform in a container)
 
-The project showcases:
+The main goal of the project is to showcase:
 
 * Infrastructure as Code using Terraform
-* Container orchestration with Docker Compose
-* Multi-database integration in Python
+* Container management with Podman
+* Parallel data access from multiple databases in Python
 
 ---
 
-## 🏗️ Tech Stack
+##  Tech Stack
 
 * Python 3.11
-* Docker & Docker Compose
 * Terraform
+* Podman
 * MySQL 8
 * SQLite
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 .
@@ -34,28 +34,37 @@ The project showcases:
 │   ├── db/
 │   │   ├── mysql_db.py
 │   │   └── sqlite_db.py
-│   ├── Dockerfile
 │   ├── requirements.txt
 │   └── .env
 │
 ├── terraform/
 │   ├── mysql/
-│   ├── sqlite/
 │   └── podman/
 │
-├── docker-compose.yml
 └── README.md
 ```
 
 ---
 
-## ⚙️ How to Run
+## How It Works
 
-### 1. Clone repository
+1. Terraform provisions a MySQL container using Podman
+2. Python application connects to:
+
+   * local SQLite database
+   * MySQL container
+3. Data is fetched from both databases in parallel
+
+---
+
+## How to Run
+
+### 1. Initialize and apply Terraform
 
 ```
-git clone https://github.com/romanchernukha8-ctrl/multi-db-docker-terraform-app.git
-cd multi-db-docker-terraform-app
+cd terraform/mysql
+terraform init
+terraform apply
 ```
 
 ---
@@ -63,12 +72,13 @@ cd multi-db-docker-terraform-app
 ### 2. Run application
 
 ```
-docker compose up --build
+cd app
+python3 -m app.app
 ```
 
 ---
 
-## 📊 Expected Output
+##  Example Output
 
 ```
 MySQL connected!
@@ -78,33 +88,21 @@ MySQL: [...]
 
 ---
 
-## ⚠️ Important Notes
+##  Features
 
-* The application includes retry logic for MySQL connection
-* Containers communicate via Docker internal network
-* MySQL may take a few seconds to start — this is handled automatically
-
----
-
-## 🔥 Features
-
-* Multi-database support (SQLite + MySQL)
-* Infrastructure provisioning with Terraform
-* Fully containerized environment
+* Parallel work with multiple databases
+* Infrastructure managed via Terraform
+* MySQL container managed by Podman
 * Automatic database initialization
-* Clean project structure
+* Clean modular Python structure
 
 ---
 
-## 📈 Future Improvements
+##  Future Improvements
 
-* Add REST API (FastAPI)
-* Add CI/CD (GitHub Actions)
-* Deploy to AWS
-* Add monitoring/logging
+* Add remote Terraform state (S3)
+* Add CI/CD pipeline
+* Add environment separation (dev/prod)
+* Deploy to AWS (RDS)
 
 ---
-
-## 👨‍💻 Author
-
-Roman Chernukha
